@@ -24,6 +24,15 @@ public class PersonDao {
 		
 		em.close();
 	}
+	public Person fetchPerson(int id) {
+		EntityManager em = emf.createEntityManager();
+		
+		Person p=em.find(Person.class, id);
+		
+		em.close();
+		
+		return p;
+	}
 
 
 }
