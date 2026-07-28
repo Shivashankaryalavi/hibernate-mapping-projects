@@ -1,8 +1,11 @@
 package com.job_portal.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -43,8 +46,13 @@ public class User {
 	public void setP(Profile p) {
 		this.p = p;
 	}
+	// user <---->  Profile
 	@OneToOne
 	@JoinColumn(name="profile_id")
 	private Profile p;
+	
+	// user<------>Applications(one user Many Applications)
+	@OneToMany(mappedBy ="u")
+	private List<Application> app;
 
 }
