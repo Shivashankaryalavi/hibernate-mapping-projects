@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -53,6 +56,12 @@ public class Job {
 	@ManyToOne
 	@JoinColumn(name="c_id")
 	private Company c;
+	
+	@ManyToMany
+	@JoinTable(name="Job_Skill",
+	           joinColumns=@JoinColumn(name="job_id"),
+               inverseJoinColumns=@JoinColumn(name="skill_id"))
+	private List<Skill> s;
 	
 
 }
