@@ -2,7 +2,10 @@ package com.job_portal.entity;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -13,6 +16,7 @@ import javax.persistence.Table;
 @Table(name="users")
 public class User {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	public int getId() {
 		return id;
@@ -38,6 +42,7 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	@Column(unique=true)
 	private String email;
 	private String password;
 	private String role;
@@ -56,5 +61,17 @@ public class User {
 	// user<------>Applications(one user Many Applications)
 	@OneToMany(mappedBy ="u")
 	private List<Application> app;
+	
+	@Override
+	public String toString() {
+	    return "User{" +
+	            "id=" + id +
+	            ", email='" + email + '\'' +
+	            ", password='" + password + '\'' +
+	            ", role='" + role + '\'' +
+	            '}';
+	}
+	
+	
 
 }
