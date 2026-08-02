@@ -1,7 +1,12 @@
 package com.jobportal.dao;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+
 import com.job_portal.entity.User;
 import com.jobportal.util.JPAUtil;
 public class UserDAO {
@@ -105,6 +110,74 @@ public class UserDAO {
 
 	    }
 	}
+	
+	public List<User> findAll(){
+		EntityManager em = emf.createEntityManager();
+		Query q = em.createQuery("SELECT u FROM User u");
+	
+		
+		List<User> list = q.getResultList();
+		em.close();
+		return list;
+	}
+	public User findByEmail(String email) {
+		
+		EntityManager em = emf.createEntityManager();
+		
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.email=:email");
+		
+		q.setParameter("email", email);
+		
+		try {
+			User u = (User) q.getSingleResult();
+		
+			return u;	
+		}
+		catch(NoResultException e) {
+			return null;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}
+	
+	}
+	public  List<User> findByRole(String role) {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery("SELECT u FROM User u WHERE u.role =  :role");
+			q.setParameter("role", role);
+			List<User> list = (List<User>) q.getResultList();
+			return list;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}
+	}
+	public User login(String email,String password) {
+		EntityManager em = emf.createEntityManager();
+		
+		Query q = em.createQuery("SELECT u FROM User u where u.email= :email AND u.password=:password");
+		q.setParameter("email", email);
+		q.setParameter("password", password);
+		try {
+			User u = (User) q.getSingleResult();
+			return u;
+			
+		}
+		catch(NoResultException e) {
+			return null;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}
 		
 	}
-}
+	
+	}
+
