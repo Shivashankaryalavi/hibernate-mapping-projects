@@ -178,6 +178,103 @@ public class UserDAO {
 		}
 		
 	}
-	
+	public List<User> findAllOrderByEmail(){
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery("SELECT u FROM User u ORDER BY u.email");
+			List<User> list =(List<User>) q.getResultList();
+			return list;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}
+			
 	}
+	public List<User> findByEmailStartsWith(String email){
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			Query q = em.createQuery("SELECT u FROM User u WHERE u.email LIKE :email");
+			q.setParameter("email", email+"%");
+			List<User> list = (List<User>) q.getResultList();
+			return list;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}	
+	}
+	public List<User> findByEmailContains(String email){
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			Query q = em.createQuery("SELECT u FROM User u WHERE u.email LIKE :email");
+			q.setParameter("email", "%" +email+"%");
+			List<User> list = (List<User>) q.getResultList();
+			return list;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}
+	}
+	public int countUsers() {
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			Query q = em.createQuery("SELECT COUNT(u) FROM User u");
+			int count = (int)q.getSingleResult();
+			return count;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}
+		
+	}
+	public int maxUser() {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery("SELECT MAX(u.id) FROM User u");
+			int max=(int)q.getSingleResult();
+			return max;
+		}
+		finally{
+			if(em.isOpen()) {
+				em.close();
+			}	
+		}
+	}
+	public int minUser() {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery("SELECT MIN(u.id) FROM User u");
+			int min =(int) q.getSingleResult();
+			return min;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}
+	}
+	public double averageUser() {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery("SELECT AVG(u.id) FROM User u");
+			double avg= (double) q.getSingleResult();
+			return avg;
+		}
+		finally {
+			if(em.isOpen()) {
+				em.close();
+			}
+		}
+	}
+}
 

@@ -20,6 +20,12 @@ public class Main {
 	   u2.setRole("Job_Provider");
 	   dao.insert(u2);
 	   
+	   User u3 = new User();
+	   u3.setEmail("vinayak@gmail.com");
+	   u3.setPassword("vinu@123");
+	   u3.setRole("Manager");
+	   dao.insert(u3);
+	   
 	   
 
 	}
